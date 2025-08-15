@@ -1,0 +1,44 @@
+/*
+ * Device tree example for stm32mp157f-dk2 devboard
+ */
+
+&dsi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	/*   Refer to: UM2637 (Table 25. GPIO connectors pinout)
+	 *
+	 *   PIN#      STM32 PIN        FUNCTION
+	 *    8          PB10       GPIO14 / USART3_TX
+	 *   10          PB12       GPIO15 / USART3_RX
+	 *   16          PF1        GPIO23 / SDMMC3_CMD
+	 */
+	panel@0 {
+
+		/*
+		 *      Default STM32 devboard display
+		 *
+		 *  compatible = "orisetech,otm8009a";
+		 *  reset-gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
+		 *  power-supply = <&v3v3>;
+		 */
+
+		/*            Jadard display
+		 */
+		 compatible = "shenzen,z34014p30365ty1","jadard,jd9365tn";
+		 reset-gpios = <&gpiob 10 GPIO_ACTIVE_HIGH>;
+		 vdd-gpios   = <&gpiob 12 GPIO_ACTIVE_HIGH>;
+		 vccio-gpios = <&gpiof 1  GPIO_ACTIVE_HIGH>;
+		 dbg-gpios   = <&gpiof 0  GPIO_ACTIVE_HIGH>;
+
+		reg = <0>;
+		status = "okay";
+
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&dsi_out>;
+			};
+		};
+	};
+};
